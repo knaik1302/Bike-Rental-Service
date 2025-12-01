@@ -1,0 +1,45 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+
+### VS Code ###
+.vscode/
+
+###ECLIPSE###
+application*.yml
+.DS_Store
+Thumbs.db
+*.log
+logs/
+*.class
+*.pem
+*.key
+*.jks
+secret/
+secrets/
+dependency-reduced-pom.xml
+.mvn/timing.properties
+.metadata
+.recommenders
+bin/
+out/
+docker-compose.override.yml
+*.pid
+.env
+.env.*
+mysql/
