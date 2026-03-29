@@ -11,6 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.springbootBackend.bike_rental_application.auth.jwt.JwtAuthenticationFilter;
 import com.springbootBackend.bike_rental_application.auth.jwt.JwtTokenProvider;
@@ -26,12 +28,20 @@ public class SecurityConfig {
 	private final CustomUserDetailsService customUserDetailsService;
 	private final CustomAccessDeniedHandler customAccessDeniedHandler;
 	private final CustomAuthEntryPoint customAuthEntryPoint;
+	private final CorsConfigurationSource corsConfigurationSource;
 	
-	public SecurityConfig(JwtTokenProvider jwtTokenProvider, CustomUserDetailsService customUserDetailsService, CustomAccessDeniedHandler customAccessDeniedHandler, CustomAuthEntryPoint customAuthEntryPoint) {
+	public SecurityConfig(
+			JwtTokenProvider jwtTokenProvider, 
+			CustomUserDetailsService customUserDetailsService, 
+			CustomAccessDeniedHandler customAccessDeniedHandler, 
+			CustomAuthEntryPoint customAuthEntryPoint,
+			CorsConfigurationSource corsConfigurationSource) 
+	{
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.customUserDetailsService = customUserDetailsService;
 		this.customAccessDeniedHandler = customAccessDeniedHandler;
 		this.customAuthEntryPoint = customAuthEntryPoint;
+		this.corsConfigurationSource = corsConfigurationSource;
 	}
 	
 	@Bean
@@ -39,6 +49,7 @@ public class SecurityConfig {
 		JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtTokenProvider);
 		
 		http
+		.cors(cors -> cors.configurationSource(corsConfigurationSource))
 		.csrf(csrf -> csrf.disable())
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authorizeHttpRequests(auth -> auth
@@ -64,5 +75,4 @@ public class SecurityConfig {
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
 		return configuration.getAuthenticationManager();
 	}
-	
 }
